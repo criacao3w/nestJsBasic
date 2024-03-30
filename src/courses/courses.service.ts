@@ -25,6 +25,7 @@ export class CoursesService {
     create(createCourseDto: any) 
     {
         this.courses.push(createCourseDto);
+        return this.courses;
     }
 
     update(id: string, updateCourseDto: any)
@@ -34,6 +35,7 @@ export class CoursesService {
         );
 
         this.courses[indexCourse] = updateCourseDto;
+        return this.courses;
     }
 
     remove(id: string)
@@ -42,8 +44,9 @@ export class CoursesService {
             (course: Course) => course.id === Number(id),
         );
 
-        if(indexCourse >= 0) {
+        if(indexCourse >= 0)
             this.courses.splice(indexCourse, 1);
-        }
+
+        return this.courses;
     }
 }
