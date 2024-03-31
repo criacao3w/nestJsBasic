@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Param, Patch, Post, Res } from '@nestjs/common';
 import { CoursesService } from './courses.service';
 
 @Controller('courses')
@@ -16,7 +16,15 @@ export class CoursesController {
   @Get('course/:id/:name')
   findOne(@Param('id') id: string, @Param('name') name: string) 
   {
-    return this.coursesService.findOne(id);
+    const course = this.coursesService.findOne(id);
+
+    if(!course)
+        throw new HttpException(
+            `Course ID ${id} Not Found`,
+            HttpStatus.NOT_FOUND
+        );
+
+    return course;
   }
 
   @Post('create')
